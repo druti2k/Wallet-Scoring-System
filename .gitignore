@@ -1,2 +1,5 @@
-# Ignore the behavioral-wallet-scoring folder (sub-repo)
-behavioral-wallet-scoring/
+venv/
+.venv/
+src/venv/
+*.pyc
+__pycache__/
