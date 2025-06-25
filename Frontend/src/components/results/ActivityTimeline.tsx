@@ -1,64 +1,18 @@
 import React from 'react';
 import { useWallet } from '../../contexts/WalletContext';
 
-const activities = [
-  {
-    date: 'Today',
-    events: [
-      {
-        type: 'transaction',
-        time: '10:24 AM',
-        description: 'Sent 0.5 ETH to 0x742...F3B2',
-        highlight: false
-      }
-    ]
-  },
-  {
-    date: 'Yesterday',
-    events: [
-      {
-        type: 'contract',
-        time: '3:45 PM',
-        description: 'Interacted with Uniswap V3 contract',
-        highlight: false
-      },
-      {
-        type: 'transaction',
-        time: '12:32 PM',
-        description: 'Received 1,250 USDT from 0x381...A2E1',
-        highlight: true
-      }
-    ]
-  },
-  {
-    date: 'May 12, 2025',
-    events: [
-      {
-        type: 'transaction',
-        time: '7:14 PM',
-        description: 'Sent 2.2 ETH to 0x912...B4C3',
-        highlight: false
-      },
-      {
-        type: 'contract',
-        time: '5:30 PM',
-        description: 'Approved USDC for Aave contract',
-        highlight: false
-      },
-      {
-        type: 'transaction',
-        time: '2:45 PM',
-        description: 'Received 4,500 USDC from 0x583...D1F2',
-        highlight: false
-      }
-    ]
-  }
-];
-
 const ActivityTimeline: React.FC = () => {
   const { walletData } = useWallet();
   
-  if (!walletData) return null;
+  if (!walletData || !Array.isArray(walletData.activities)) return null;
+  const activities = walletData.activities || [];
+  if (activities.length === 0) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg p-6 text-center text-gray-500 dark:text-gray-400">
+        No recent activity found for this wallet.
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">

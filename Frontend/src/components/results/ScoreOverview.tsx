@@ -5,7 +5,7 @@ import { useWallet } from '../../contexts/WalletContext';
 const ScoreOverview: React.FC = () => {
   const { walletData } = useWallet();
   
-  if (!walletData) return null;
+  if (!walletData || typeof walletData.score !== 'number' || !walletData.address) return null;
   
   const { score } = walletData;
   
@@ -89,10 +89,6 @@ const ScoreOverview: React.FC = () => {
         </div>
         
         <p className="text-gray-600 dark:text-gray-300 text-sm">{description}</p>
-        
-        <button className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors duration-200">
-          View Detailed Report
-        </button>
       </div>
     </div>
   );

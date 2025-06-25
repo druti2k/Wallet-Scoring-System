@@ -5,34 +5,34 @@ import { useWallet } from '../../contexts/WalletContext';
 const WalletInsights: React.FC = () => {
   const { walletData } = useWallet();
   
-  if (!walletData) return null;
+  if (!walletData || typeof walletData.totalValue === 'undefined' || typeof walletData.transactionCount === 'undefined' || typeof walletData.avgTransaction === 'undefined' || typeof walletData.activeSince === 'undefined') return null;
 
   const insights = [
     {
       title: 'Total Value',
-      value: '$42,839.25',
-      change: '+5.2%',
+      value: walletData.totalValue,
+      change: '',
       positive: true,
       icon: <Wallet className="h-5 w-5 text-purple-500" />
     },
     {
       title: 'Transactions',
-      value: '246',
-      change: '+12 this week',
+      value: walletData.transactionCount,
+      change: '',
       positive: true,
       icon: <BarChart3 className="h-5 w-5 text-blue-500" />
     },
     {
       title: 'Avg. Transaction',
-      value: '$852.14',
-      change: '-2.3%',
-      positive: false,
+      value: walletData.avgTransaction,
+      change: '',
+      positive: true,
       icon: <ArrowDownRight className="h-5 w-5 text-amber-500" />
     },
     {
       title: 'Active Since',
-      value: '381 days',
-      change: 'March 15, 2024',
+      value: walletData.activeSince,
+      change: '',
       positive: true,
       icon: <ArrowUpRight className="h-5 w-5 text-green-500" />
     }

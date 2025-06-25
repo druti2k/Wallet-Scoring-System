@@ -2,58 +2,19 @@ import React, { useState } from 'react';
 import { ArrowDownRight, ArrowUpRight, FileText, ExternalLink } from 'lucide-react';
 import { useWallet } from '../../contexts/WalletContext';
 
-const transactions = [
-  {
-    id: 'tx1',
-    hash: '0x8a3c5b925dfb51059b3fabf75a1f3373c2af8d4c2ab5a7370f14bdb92d5f96c6',
-    type: 'outgoing',
-    amount: '0.5 ETH',
-    value: '$1,235.42',
-    to: '0x742f...F3B2',
-    from: '0x3a1b...C5D2',
-    timestamp: '2025-05-14T10:24:00Z',
-    gas: '0.0021 ETH'
-  },
-  {
-    id: 'tx2',
-    hash: '0x6b2d4a77e3f4b862c461e7bc2cdfc9389aa8822fe8c181f28c7d3f943ea142a7',
-    type: 'incoming',
-    amount: '1,250 USDT',
-    value: '$1,250.00',
-    to: '0x3a1b...C5D2',
-    from: '0x381d...A2E1',
-    timestamp: '2025-05-13T15:45:00Z',
-    gas: '0.0018 ETH'
-  },
-  {
-    id: 'tx3',
-    hash: '0x3d5c9b57a8a954e4f792df362af8d64f770d8e6ecaf12b53c3413930f338e19a',
-    type: 'outgoing',
-    amount: '2.2 ETH',
-    value: '$5,435.84',
-    to: '0x912e...B4C3',
-    from: '0x3a1b...C5D2',
-    timestamp: '2025-05-12T19:14:00Z',
-    gas: '0.0025 ETH'
-  },
-  {
-    id: 'tx4',
-    hash: '0x9e7c1a37eef8c9e4e6a4e6c8d2c8e8a3d8c1e8c1a37eef8c9e4e6a4e6c8d2c8e',
-    type: 'incoming',
-    amount: '4,500 USDC',
-    value: '$4,500.00',
-    to: '0x3a1b...C5D2',
-    from: '0x583f...D1F2',
-    timestamp: '2025-05-12T14:45:00Z',
-    gas: '0.0017 ETH'
-  }
-];
-
 const TransactionHistory: React.FC = () => {
   const { walletData } = useWallet();
   const [visibleDetails, setVisibleDetails] = useState<string | null>(null);
   
-  if (!walletData) return null;
+  if (!walletData || !Array.isArray(walletData.recentTransactions)) return null;
+  const transactions = walletData.recentTransactions || [];
+  if (transactions.length === 0) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg p-6 text-center text-gray-500 dark:text-gray-400">
+        No transactions found for this wallet.
+      </div>
+    );
+  }
 
   const toggleDetails = (id: string) => {
     if (visibleDetails === id) {

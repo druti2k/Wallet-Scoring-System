@@ -6,38 +6,24 @@ const AssistantSection: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [conversation, setConversation] = useState<{ role: 'user' | 'assistant'; content: string }[]>([]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!question.trim()) return;
-    
-    // Add user message to conversation
     setConversation([...conversation, { role: 'user', content: question }]);
-    
-    // Simulate response
     setIsLoading(true);
-    setTimeout(() => {
-      const response = getAssistantResponse(question);
-      setConversation(prev => [...prev, { role: 'assistant', content: response }]);
-      setIsLoading(false);
-      setQuestion('');
-    }, 1000);
-  };
-
-  const getAssistantResponse = (question: string): string => {
-    // Simple logic to generate responses
-    if (question.toLowerCase().includes('what is wallet scoring')) {
-      return 'Wallet scoring is a risk assessment methodology that analyzes blockchain wallet activity patterns and behaviors to determine potential security risks. It helps identify suspicious activities, like money laundering or fraud, by examining transaction history, interaction with flagged addresses, and unusual patterns.';
+    try {
+      const response = await fetch('/api/assistant/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: question })
+      });
+      const data = await response.json();
+      setConversation(prev => [...prev, { role: 'assistant', content: data.response || 'No response from assistant.' }]);
+    } catch (err) {
+      setConversation(prev => [...prev, { role: 'assistant', content: 'Error fetching assistant response.' }]);
     }
-    
-    if (question.toLowerCase().includes('how is the score calculated')) {
-      return 'The wallet score is calculated using multiple factors, including: transaction patterns, age of the wallet, interaction with known high-risk addresses, frequency and size of transactions, network of connections, and historical behavior patterns. These metrics are weighted and combined to produce a comprehensive risk score from 0-100, where higher scores indicate lower risk.';
-    }
-    
-    if (question.toLowerCase().includes('improve')) {
-      return 'To improve a wallet\'s trust score: maintain consistent transaction patterns, avoid interactions with flagged addresses, establish a longer history of legitimate transactions, maintain adequate balance levels, and use reputable services. Remember that scores update over time as new transaction data becomes available.';
-    }
-    
-    return 'I can help answer questions about blockchain wallet analysis, risk scoring, and security. Feel free to ask about specific metrics, scoring methodology, or how to interpret the results.';
+    setIsLoading(false);
+    setQuestion('');
   };
 
   return (
@@ -117,28 +103,7 @@ const AssistantSection: React.FC = () => {
         </form>
         
         <div className="flex flex-wrap gap-2 justify-center mt-4 text-sm">
-          <span className="text-gray-500 dark:text-gray-400">Try asking:</span>
-          <button 
-            type="button"
-            onClick={() => setQuestion("What is wallet scoring?")}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            What is wallet scoring?
-          </button>
-          <button 
-            type="button"
-            onClick={() => setQuestion("How is the score calculated?")}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            How is the score calculated?
-          </button>
-          <button 
-            type="button"
-            onClick={() => setQuestion("How can I improve my wallet's score?")}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            How can I improve my score?
-          </button>
+          {/* Example buttons removed */}
         </div>
       </div>
     </div>

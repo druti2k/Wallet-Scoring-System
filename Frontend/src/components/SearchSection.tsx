@@ -57,28 +57,7 @@ const SearchSection: React.FC = () => {
         </div>
         
         <div className="flex flex-wrap gap-2 justify-center text-sm text-gray-500 dark:text-gray-400">
-          <span>Try examples:</span>
-          <button 
-            type="button"
-            onClick={() => setWalletAddress('0x71C7656EC7ab88b098defB751B7401B5f6d8976F')}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            Ethereum Whale
-          </button>
-          <button 
-            type="button"
-            onClick={() => setWalletAddress('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045')}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            Vitalik.eth
-          </button>
-          <button 
-            type="button"
-            onClick={() => setWalletAddress('bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh')}
-            className="text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            Bitcoin Address
-          </button>
+          {/* Example buttons removed */}
         </div>
       </form>
     </div>
