@@ -42,7 +42,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://user:password@localhost/wallet_scoring"
     
     # Redis
-    redis_url: str = "redis://localhost:6379"
+    redis_url: str = "redis://redis:6379"
     
     # API Keys
     openai_api_key: Optional[str] = None
