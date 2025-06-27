@@ -51,7 +51,9 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins,
+    allow_origins=[
+        "https://wallet-scoring-system-ui.onrender.com"
+    ],  # Or use ["*"] for all origins (less secure)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
